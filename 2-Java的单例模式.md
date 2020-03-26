@@ -69,7 +69,8 @@ public class Singleton{
 
 ```java
 public class Singleton{   
-    private static Singleton singleton = null;     
+    //注意volatile关键字的作用，为什么要加？不加会有什么后果？
+    private volatile static Singleton singleton = null;     
     public singleton(){       
     }      
     public static Singleton getInstance(){   
