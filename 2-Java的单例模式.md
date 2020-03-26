@@ -89,7 +89,7 @@ public class Singleton{
 
 ####  **<span style="color:blue"> a.为什么懒汉模式中要用两个if（）判断对象是否为空？</span>**
 
-  					**第一个if判断，大家应该可以理解。关键是第二个if判断，大家会想第一个if不是已经判断出对象是否为空了吗？ 现在我拿上面写的例子来解释一下，当x事件和y事件同时调用SingletonClass的对象时，如果此时instance为null，那么x 和 y 都会经过第一个if判断，到达同步锁那里。其中一个（假设 x）进入到里面以后，y在锁（synchronized（））外等候，x从锁里出来后，instance已经不为null，这时y进入锁后，如果没有if判断instance是否为空，那么instance就会又执行了一次new操作，这样x 事件和 y事件调用的就不是同一个对象了，这样就失去了单例模式的意义，所以要进行两次if判断。**
+  			**第一个if判断，大家应该可以理解。关键是第二个if判断，大家会想第一个if不是已经判断出对象是否为空了吗？ 现在我拿上面写的例子来解释一下，当x事件和y事件同时调用SingletonClass的对象时，如果此时instance为null，那么x 和 y 都会经过第一个if判断，到达同步锁那里。其中一个（假设 x）进入到里面以后，y在锁（synchronized（））外等候，x从锁里出来后，instance已经不为null，这时y进入锁后，如果没有if判断instance是否为空，那么instance就会又执行了一次new操作，这样x 事件和 y事件调用的就不是同一个对象了，这样就失去了单例模式的意义，所以要进行两次if判断。**
 
 ####   **<span style="color:blue"> b.synchronized作用？</span>**
 
@@ -100,7 +100,16 @@ public class Singleton{
 # **3.静态内部类实现模式**
 
 ```java
-public class Singleton{    public Singleton(){            }        public static class InnerSingleton{        private static final Singleton singleton = new Singleton();    }        public static Singleton getInstance(){        return InnerSingleton.singleton;    } }
+public class Singleton{  
+    public Singleton(){ 
+    }      
+    public static class InnerSingleton{  
+        private static final Singleton singleton = new Singleton();   
+    }       
+    public static Singleton getInstance(){ 
+        return InnerSingleton.singleton; 
+    } 
+}
 ```
 
 优点：避免了同步带来的性能损耗，又能延迟加载。
