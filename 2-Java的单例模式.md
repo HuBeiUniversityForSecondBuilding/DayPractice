@@ -70,6 +70,14 @@ public class Singleton{
 ```java
 public class Singleton{   
     //注意volatile关键字的作用，为什么要加？不加会有什么后果？
+    //volatile用于限制编译器或CPU的指令重排
+    //在执行singeton = new singleton()时会做一下三件事
+    //1.为对象分配内存空间
+    //2.对象初始化
+    //3.将对象指向刚刚分配的内存空间
+    //如果不加volatile那么可能在线程1在执行完第一步之后，刚好线程2用于判断singleton是否==null
+    //此时刚刚创建了对象，所以singleton！=null，因此线程2会返回singleton对象。
+    //但是singleton只是由线程1进行了创建并未初始化，返回的对象存在问题。
     private volatile static Singleton singleton = null;     
     public singleton(){       
     }      
